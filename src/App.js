@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import {Routes,Route,Link} from "react-router-dom";
+import Taskform from "./component/Taskform";
+import Tasklist from "./component/Tasklist";
+
 
 function App() {
+  const [tasks,settasks]=useState([])
+  function add(newname,newdesc)
+  {
+settasks([...tasks,{name:newname,description:newdesc,cheked:false,id:tasks.length+1}])
+localStorage.setItem("data", JSON.stringify(tasks));
+  }
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <nav>
+<Link to={'/addtask'}><button>AddTask</button></Link>
+<Link to={'/'}><button>Home</button></Link>
+    </nav>
+    
+      <Routes>
+        <Route path ='/' element={<Tasklist />} />
+        <Route path ='/addtask' element={<Taskform add={add}/>} />
+      </Routes>
+    </>
   );
 }
 
